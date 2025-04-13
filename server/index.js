@@ -75,7 +75,10 @@ io.on('connection', (socket) => {
     if (!session?.isActive || socket.id === session.gameMaster) return // Prevent Game Master from guessing
 
     const isCorrect = handleGuess(session, socket.id, guess)
-    if (isCorrect) session.endGame(io, true)
+    if (isCorrect) {
+      // End the game immediately when someone guesses correctly
+      session.endGame(io, true)
+    }
 
     callback({
       isCorrect,

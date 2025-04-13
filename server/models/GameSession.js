@@ -10,7 +10,7 @@ class GameSession {
     this.isActive = false
     this.timer = null
     this.startTime = null
-    this.winner = null // Track the winner
+    this.winner = null
   }
 
   addPlayer(socketId, username) {
@@ -45,8 +45,9 @@ class GameSession {
 
     // Find the winner if there is one
     if (hasWinner) {
+      // Find the player who just scored points (the one who guessed correctly)
       this.winner = Array.from(this.players.values()).find(
-        (player) => player.score > 0
+        (player) => player.score > 0 && player.attempts > 0
       )
     }
 
