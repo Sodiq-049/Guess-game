@@ -1,0 +1,80 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 20px;
+  background-color: #f4f4f9;
+  color: #333;
+}
+
+#app {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+#session-setup {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+#session-setup button {
+  padding: 10px 20px;
+  margin: 5px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+#game-interface {
+  display: flex;
+  gap: 20px;
+}
+
+#players-list {
+  flex: 1;
+}
+
+#game-area {
+  flex: 3;
+}
+
+#game-master-controls input {
+  display: block;
+  width: 100%;
+  margin: 10px 0;
+  padding: 10px;
+  font-size: 16px;
+}
+
+#game-play {
+  margin-top: 20px;
+}
+
+#guess-area {
+  margin-top: 20px;
+}
+
+#guess-input {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+}
+
+#submit-guess {
+  margin-top: 10px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+#game-log {
+  margin-top: 20px;
+  border-top: 1px solid #ccc;
+  padding-top: 20px;
+}
+
+#messages {
+  height: 200px;
+  overflow-y: auto;
+  border: 1px solid #ccc;
+  padding: 10px;
+  background-color: #fff;
+}
