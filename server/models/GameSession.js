@@ -10,6 +10,7 @@ class GameSession {
     this.isActive = false
     this.timer = null
     this.startTime = null
+    this.winner = null // Track the winner
   }
 
   addPlayer(socketId, username) {
@@ -35,8 +36,16 @@ class GameSession {
     clearTimeout(this.timer)
     this.isActive = false
 
+    // Find the winner if there is one
+    if (hasWinner) {
+      this.winner = Array.from(this.players.values()).find(
+        (player) => player.score > 0
+      )
+    }
+
     io.to(this.id).emit('game-ended', {
-      hasWinner,
+      hasWinner: !!this.winner,
+      winner: this.winner,
       answer: this.answer,
       scores: this.getScores(),
     })

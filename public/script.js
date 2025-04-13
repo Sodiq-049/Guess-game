@@ -115,6 +115,10 @@ socket.on('session-update', (state) => {
     if (socket.id !== state.gameMaster) {
       const currentPlayer = state.players.find((p) => p.id === socket.id)
       if (currentPlayer) {
+        // Reset attempts when game starts
+        if (currentPlayer.attempts === 0) {
+          currentPlayer.attempts = 0
+        }
         const attemptsRemaining = 3 - currentPlayer.attempts
         guessInput.disabled = attemptsRemaining <= 0
         submitGuessBtn.disabled = attemptsRemaining <= 0
@@ -144,11 +148,28 @@ socket.on('session-update', (state) => {
 
 socket.on('game-ended', (result) => {
   stopGameTimer()
-  if (result.hasWinner) {
-    addMessage(`Winner: ${result.scores[0].username}! Answer: ${result.answer}`)
+
+  // Create a more prominent message for the winner
+  const winnerMessage = document.createElement('div')
+  winnerMessage.className = 'game-log-message winner'
+
+  if (result.winner) {
+    winnerMessage.innerHTML = `
+      <strong>🎉 Game Over! 🎉</strong><br>
+      Winner: <span class="winner-name">${result.winner.username}</span><br>
+      Correct Answer: <span class="answer">${result.answer}</span><br>
+      Score: <span class="score">${result.winner.score}</span>
+    `
   } else {
-    addMessage(`Time's up! Answer: ${result.answer}`)
+    winnerMessage.innerHTML = `
+      <strong>⏰ Time's Up! ⏰</strong><br>
+      No winner this round.<br>
+      Correct Answer: <span class="answer">${result.answer}</span>
+    `
   }
+
+  messagesDiv.appendChild(winnerMessage)
+  messagesDiv.scrollTop = messagesDiv.scrollHeight
 
   // Reset game interface for all players
   questionDisplay.textContent = ''
@@ -173,6 +194,7 @@ socket.on('join-error', () => {
 // Helper Functions
 function addMessage(message) {
   const messageElement = document.createElement('div')
+  messageElement.className = 'game-log-message'
   messageElement.textContent = message
   messagesDiv.appendChild(messageElement)
   messagesDiv.scrollTop = messagesDiv.scrollHeight
