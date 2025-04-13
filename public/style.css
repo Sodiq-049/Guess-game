@@ -1,109 +1,341 @@
-body {
-  font-family: Arial, sans-serif;
+:root {
+  --primary-color: #2c3e50;
+  --secondary-color: #3498db;
+  --accent-color: #e74c3c;
+  --background-color: #34495e;
+  --text-color: #ecf0f1;
+  --border-radius: 12px;
+  --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  --transition: all 0.3s ease;
+  --card-bg: #2c3e50;
+  --hover-bg: #34495e;
+  --input-border: #7f8c8d;
+  --success-color: #2ecc71;
+  --warning-color: #f1c40f;
+  --error-color: #e74c3c;
+}
+
+* {
   margin: 0;
-  padding: 20px;
-  background-color: #f4f4f9;
-  color: #333;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+  min-height: 100vh;
+  color: var(--text-color);
 }
 
 #app {
-  max-width: 800px;
+  max-width: 1200px;
   margin: 0 auto;
+  padding: 2rem;
 }
 
 #session-setup {
+  background: var(--card-bg);
+  padding: 2rem;
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 2rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-#session-setup button {
-  padding: 10px 20px;
-  margin: 5px;
-  font-size: 16px;
+h1 {
+  color: var(--text-color);
+  margin-bottom: 1.5rem;
+  font-size: 2.5rem;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+button {
+  background: var(--secondary-color);
+  color: white;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: var(--border-radius);
   cursor: pointer;
+  font-size: 1rem;
+  transition: var(--transition);
+  margin: 0.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+button:hover {
+  background: #2980b9;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+input {
+  padding: 0.8rem;
+  border: 2px solid var(--input-border);
+  border-radius: var(--border-radius);
+  font-size: 1rem;
+  width: 100%;
+  max-width: 300px;
+  margin: 0.5rem;
+  transition: var(--transition);
+  background: var(--hover-bg);
+  color: var(--text-color);
+}
+
+input:focus {
+  outline: none;
+  border-color: var(--secondary-color);
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
 }
 
 #game-interface {
-  display: flex;
-  gap: 20px;
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 2rem;
+  margin-top: 2rem;
 }
 
 #players-list {
-  flex: 1;
+  background: var(--card-bg);
+  padding: 1.5rem;
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+#players-list h2 {
+  color: var(--text-color);
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+}
+
+#players {
+  list-style: none;
+}
+
+#players li {
+  padding: 0.8rem;
+  margin-bottom: 0.5rem;
+  background: var(--hover-bg);
+  border-radius: var(--border-radius);
+  transition: var(--transition);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+#players li:hover {
+  background: #34495e;
+  transform: translateX(5px);
+  border-color: var(--secondary-color);
 }
 
 #game-area {
-  flex: 3;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
 }
 
-#game-master-controls input {
-  display: block;
-  width: 100%;
-  margin: 10px 0;
-  padding: 10px;
-  font-size: 16px;
+#game-master-controls {
+  background: var(--card-bg);
+  padding: 1.5rem;
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+#game-master-controls h3 {
+  color: var(--text-color);
+  margin-bottom: 1rem;
 }
 
 #game-play {
-  margin-top: 20px;
+  background: var(--card-bg);
+  padding: 1.5rem;
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  text-align: center;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+#question-display {
+  color: var(--text-color);
+  margin-bottom: 1.5rem;
+  font-size: 1.8rem;
+  min-height: 2.5rem;
 }
 
 #guess-area {
-  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
 }
 
 #guess-input {
-  width: 100%;
-  padding: 10px;
-  font-size: 16px;
+  max-width: 400px;
 }
 
 #submit-guess {
-  margin-top: 10px;
-  padding: 10px 20px;
-  font-size: 16px;
-  cursor: pointer;
+  background: var(--success-color);
+}
+
+#submit-guess:hover {
+  background: #27ae60;
+}
+
+#attempts-left {
+  color: var(--warning-color);
+  font-weight: bold;
+  font-size: 1.1rem;
 }
 
 #game-log {
-  margin-top: 20px;
-  padding: 15px;
-  background-color: #f5f5f5;
-  border-radius: 8px;
-  max-height: 300px;
-  overflow-y: auto;
+  background: var(--card-bg);
+  padding: 1.5rem;
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  margin-top: 2rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+#game-log h2 {
+  color: var(--text-color);
+  margin-bottom: 1rem;
 }
 
 #messages {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+  max-height: 300px;
+  overflow-y: auto;
+  padding: 1rem;
+  background: var(--hover-bg);
+  border-radius: var(--border-radius);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .game-log-message {
-  padding: 10px;
-  background-color: white;
-  border-radius: 6px;
+  padding: 1rem;
+  margin-bottom: 0.8rem;
+  background: var(--hover-bg);
+  border-radius: var(--border-radius);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: var(--transition);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.game-log-message:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border-color: var(--secondary-color);
 }
 
 .game-log-message.winner {
-  background-color: #e8f5e9;
-  border-left: 4px solid #4caf50;
-  padding: 15px;
+  background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+  border-left: 4px solid var(--success-color);
 }
 
 .game-log-message.winner .winner-name {
-  color: #2e7d32;
+  color: white;
   font-weight: bold;
 }
 
 .game-log-message.winner .answer {
-  color: #1976d2;
+  color: white;
   font-weight: bold;
 }
 
 .game-log-message.winner .score {
-  color: #f57c00;
+  color: var(--warning-color);
   font-weight: bold;
+}
+
+#timer-display {
+  background: var(--secondary-color);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: var(--border-radius);
+  display: inline-block;
+  margin-bottom: 1rem;
+  font-weight: bold;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  #app {
+    padding: 1rem;
+  }
+
+  #game-interface {
+    grid-template-columns: 1fr;
+  }
+
+  h1 {
+    font-size: 2rem;
+  }
+
+  #question-display {
+    font-size: 1.5rem;
+  }
+
+  button,
+  input {
+    width: 100%;
+    max-width: none;
+  }
+
+  #guess-area {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 480px) {
+  #session-setup,
+  #game-master-controls,
+  #game-play,
+  #game-log {
+    padding: 1rem;
+  }
+
+  h1 {
+    font-size: 1.8rem;
+  }
+
+  #question-display {
+    font-size: 1.3rem;
+  }
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.game-log-message {
+  animation: fadeIn 0.3s ease-out;
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--hover-bg);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--primary-color);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #34495e;
 }
