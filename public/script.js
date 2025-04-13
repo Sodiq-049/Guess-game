@@ -66,6 +66,7 @@ socket.on('session-created', (sessionId) => {
 socket.on('set-game-master', () => {
   isGameMaster = true
   gameMasterControls.style.display = 'block'
+  gamePlay.style.display = 'none'
   addMessage('You are now the Game Master!')
 })
 
@@ -79,6 +80,7 @@ socket.on('session-update', (state) => {
   if (state.isActive) {
     questionDisplay.textContent = `Question: ${state.question}`
     gamePlay.style.display = 'block'
+    gameMasterControls.style.display = 'none'
 
     // Show guess input only for players (not the Game Master)
     if (socket.id !== state.gameMaster) {
@@ -96,6 +98,14 @@ socket.on('session-update', (state) => {
       attemptsLeft.textContent = 'You are the Game Master!'
     }
   } else {
+    // When game is not active, show appropriate UI based on game master status
+    if (socket.id === state.gameMaster) {
+      gameMasterControls.style.display = 'block'
+      gamePlay.style.display = 'none'
+    } else {
+      gameMasterControls.style.display = 'none'
+      gamePlay.style.display = 'block'
+    }
     questionDisplay.textContent = ''
     guessInput.disabled = true
     submitGuessBtn.disabled = true
@@ -109,8 +119,21 @@ socket.on('game-ended', (result) => {
   } else {
     addMessage(`Time's up! Answer: ${result.answer}`)
   }
+
+  // Reset game interface for all players
+  questionDisplay.textContent = ''
   guessInput.disabled = true
   submitGuessBtn.disabled = true
+  attemptsLeft.textContent = ''
+
+  // Show game master controls only for the new game master
+  if (isGameMaster) {
+    gameMasterControls.style.display = 'block'
+    gamePlay.style.display = 'none'
+  } else {
+    gameMasterControls.style.display = 'none'
+    gamePlay.style.display = 'block'
+  }
 })
 
 socket.on('join-error', () => {
