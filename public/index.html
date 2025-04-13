@@ -1,54 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Guessing Game</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <div id="app">
-    <div id="session-setup">
-      <h1>Guessing Game</h1>
-      <button id="create-session">Create New Session</button>
-      <div>
-        <input id="join-session-id" placeholder="Enter Session ID">
-        <button id="join-session">Join Session</button>
-      </div>
-    </div>
-
-    <div id="game-interface" style="display: none;">
-      <div id="players-list">
-        <h2>Players</h2>
-        <ul id="players"></ul>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Guessing Game</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div id="app">
+      <div id="session-setup">
+        <h1>Guessing Game</h1>
+        <button id="create-session">Create New Session</button>
+        <div>
+          <input id="join-session-id" placeholder="Enter Session ID" />
+          <button id="join-session">Join Session</button>
+        </div>
       </div>
 
-      <div id="game-area">
-        <div id="game-master-controls" style="display: none;">
-          <h3>You are the Game Master!</h3>
-          <input id="question-input" placeholder="Enter your question">
-          <input id="answer-input" placeholder="Enter the correct answer">
-          <button id="start-game">Start Game</button>
+      <div id="game-interface" style="display: none">
+        <div id="players-list">
+          <h2>Players</h2>
+          <ul id="players"></ul>
         </div>
 
-        <div id="game-play">
-          <h2 id="question-display"></h2>
-          <div id="guess-area">
-            <input id="guess-input" placeholder="Enter your guess" disabled>
-            <button id="submit-guess" disabled>Submit Guess</button>
-            <p id="attempts-left"></p>
+        <div id="game-area">
+          <div id="game-master-controls" style="display: none">
+            <h3>You are the Game Master!</h3>
+            <input id="question-input" placeholder="Enter your question" />
+            <input id="answer-input" placeholder="Enter the correct answer" />
+            <button id="start-game">Start Game</button>
+          </div>
+
+          <div id="game-play">
+            <h2 id="question-display"></h2>
+            <div id="timer-display">
+              Time left: <span id="time-left">60</span> seconds
+            </div>
+            <div id="guess-area">
+              <input id="guess-input" placeholder="Enter your guess" disabled />
+              <button id="submit-guess" disabled>Submit Guess</button>
+              <p id="attempts-left"></p>
+            </div>
+          </div>
+
+          <div id="game-log">
+            <h2>Game Log</h2>
+            <div id="messages"></div>
           </div>
         </div>
-
-        <div id="game-log">
-          <h2>Game Log</h2>
-          <div id="messages"></div>
-        </div>
       </div>
     </div>
-  </div>
 
-  <script src="/socket.io/socket.io.js"></script>
-  <script src="script.js"></script>
-</body>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="script.js"></script>
+  </body>
 </html>

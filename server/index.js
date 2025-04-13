@@ -85,6 +85,15 @@ io.on('connection', (socket) => {
     updateSessionState(session) // Update the session state for all players
   })
 
+  // Handle time-up event
+  socket.on('time-up', () => {
+    const session = sessions.get(currentSession)
+    if (!session?.isActive) return
+
+    session.endGame(io, false)
+    updateSessionState(session)
+  })
+
   // Handle player disconnection
   socket.on('disconnect', () => {
     const session = sessions.get(currentSession)

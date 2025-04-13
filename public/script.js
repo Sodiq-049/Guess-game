@@ -1,6 +1,7 @@
 const socket = io()
 let currentSession = null
 let isGameMaster = false
+let gameTimer = null
 
 // DOM Elements
 const sessionSetup = document.getElementById('session-setup')
@@ -14,6 +15,33 @@ const attemptsLeft = document.getElementById('attempts-left')
 const messagesDiv = document.getElementById('messages')
 const joinSessionIdInput = document.getElementById('join-session-id')
 const gamePlay = document.getElementById('game-play')
+const timeLeftDisplay = document.getElementById('time-left')
+const timerDisplay = document.getElementById('timer-display')
+
+// Helper function to start the game timer
+function startGameTimer(duration = 60) {
+  clearInterval(gameTimer)
+  let timeLeft = duration
+  timeLeftDisplay.textContent = timeLeft
+  timerDisplay.style.display = 'block'
+
+  gameTimer = setInterval(() => {
+    timeLeft--
+    timeLeftDisplay.textContent = timeLeft
+
+    if (timeLeft <= 0) {
+      clearInterval(gameTimer)
+      timerDisplay.style.display = 'none'
+      socket.emit('time-up')
+    }
+  }, 1000)
+}
+
+// Helper function to stop the game timer
+function stopGameTimer() {
+  clearInterval(gameTimer)
+  timerDisplay.style.display = 'none'
+}
 
 // Event Listeners
 document.getElementById('create-session').addEventListener('click', () => {
@@ -81,16 +109,16 @@ socket.on('session-update', (state) => {
     questionDisplay.textContent = `Question: ${state.question}`
     gamePlay.style.display = 'block'
     gameMasterControls.style.display = 'none'
+    startGameTimer()
 
     // Show guess input only for players (not the Game Master)
     if (socket.id !== state.gameMaster) {
       const currentPlayer = state.players.find((p) => p.id === socket.id)
       if (currentPlayer) {
-        guessInput.disabled = false
-        submitGuessBtn.disabled = false
-        attemptsLeft.textContent = `Attempts left: ${
-          3 - currentPlayer.attempts
-        }`
+        const attemptsRemaining = 3 - currentPlayer.attempts
+        guessInput.disabled = attemptsRemaining <= 0
+        submitGuessBtn.disabled = attemptsRemaining <= 0
+        attemptsLeft.textContent = `Attempts left: ${attemptsRemaining}`
       }
     } else {
       guessInput.disabled = true
@@ -98,6 +126,7 @@ socket.on('session-update', (state) => {
       attemptsLeft.textContent = 'You are the Game Master!'
     }
   } else {
+    stopGameTimer()
     // When game is not active, show appropriate UI based on game master status
     if (socket.id === state.gameMaster) {
       gameMasterControls.style.display = 'block'
@@ -114,6 +143,7 @@ socket.on('session-update', (state) => {
 })
 
 socket.on('game-ended', (result) => {
+  stopGameTimer()
   if (result.hasWinner) {
     addMessage(`Winner: ${result.scores[0].username}! Answer: ${result.answer}`)
   } else {
