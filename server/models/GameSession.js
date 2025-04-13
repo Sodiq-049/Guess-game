@@ -29,6 +29,13 @@ class GameSession {
   startGame(io) {
     this.isActive = true
     this.startTime = Date.now()
+    this.winner = null // Reset winner
+
+    // Reset attempts for all players
+    for (const player of this.players.values()) {
+      player.attempts = 0
+    }
+
     this.timer = setTimeout(() => this.endGame(io, false), GAME_DURATION)
   }
 

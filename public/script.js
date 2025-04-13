@@ -31,6 +31,7 @@ function startGameTimer(duration = 60) {
 
     if (timeLeft <= 0) {
       clearInterval(gameTimer)
+      gameTimer = null
       timerDisplay.style.display = 'none'
       socket.emit('time-up')
     }
@@ -40,6 +41,7 @@ function startGameTimer(duration = 60) {
 // Helper function to stop the game timer
 function stopGameTimer() {
   clearInterval(gameTimer)
+  gameTimer = null
   timerDisplay.style.display = 'none'
 }
 
@@ -77,6 +79,10 @@ submitGuessBtn.addEventListener('click', () => {
         addMessage('You guessed correctly!')
       } else {
         addMessage(`Wrong guess! Attempts left: ${response.attemptsLeft}`)
+        if (response.attemptsLeft <= 0) {
+          guessInput.disabled = true
+          submitGuessBtn.disabled = true
+        }
       }
       guessInput.value = ''
     })
@@ -109,19 +115,19 @@ socket.on('session-update', (state) => {
     questionDisplay.textContent = `Question: ${state.question}`
     gamePlay.style.display = 'block'
     gameMasterControls.style.display = 'none'
-    startGameTimer()
+
+    // Only start timer if it's not already running
+    if (!gameTimer) {
+      startGameTimer()
+    }
 
     // Show guess input only for players (not the Game Master)
     if (socket.id !== state.gameMaster) {
       const currentPlayer = state.players.find((p) => p.id === socket.id)
       if (currentPlayer) {
-        // Reset attempts when game starts
-        if (currentPlayer.attempts === 0) {
-          currentPlayer.attempts = 0
-        }
         const attemptsRemaining = 3 - currentPlayer.attempts
-        guessInput.disabled = attemptsRemaining <= 0
-        submitGuessBtn.disabled = attemptsRemaining <= 0
+        guessInput.disabled = false // Enable input at start of game
+        submitGuessBtn.disabled = false // Enable button at start of game
         attemptsLeft.textContent = `Attempts left: ${attemptsRemaining}`
       }
     } else {
