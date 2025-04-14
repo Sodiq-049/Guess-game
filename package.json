@@ -1,15 +1,16 @@
 {
-  "name": "chat_game",
+  "name": "guess-game",
   "version": "1.0.0",
   "main": "server/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server/index.js",
     "dev": "nodemon server/index.js"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": ["chat", "game", "fun"],
+  "author": "Jude Amiens",
   "license": "ISC",
-  "description": "",
+  "description": "A simple chat game for fun",
   "devDependencies": {
     "nodemon": "^3.1.9"
   },
